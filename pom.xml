@@ -42,11 +42,6 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>pedidos-presentation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>pedidos-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -260,7 +255,9 @@
     <module>pedidos-application</module>
     <module>pedidos-gateway</module>
     <module>pedidos-api</module>
+    <!--
     <module>pedidos-presentation</module>
     <module>pedidos-boot</module>
+    -->
   </modules>
 </project>

@@ -10,9 +10,11 @@ import javax.transaction.Transactional;
 import org.hibernate.Hibernate;
 
 import br.com.munif.pedidos.application.repository.PedidoRepository;
+import br.com.munif.pedidos.application.repository.ProdutoRepository;
 import br.com.munif.pedidos.domain.model.Pedido;
 
 import br.com.munif.pedidos.domain.model.ItemPedido;
+import br.com.munif.pedidos.domain.model.Produto;
 
 @Service
 @Transactional
@@ -20,6 +22,9 @@ public class PedidoService extends GumgaService<Pedido, Long> {
 
     private final static Logger LOG = LoggerFactory.getLogger(PedidoService.class);
     private final PedidoRepository repository;
+    
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     public PedidoService(PedidoRepository repository) {
@@ -30,10 +35,18 @@ public class PedidoService extends GumgaService<Pedido, Long> {
     @Transactional
     public Pedido loadPedidoFat(Long id) {
     Pedido obj = view(id);
-
         Hibernate.initialize(obj.getItens());
-
-
     return obj;
     }
+
+    @Override
+    public void beforeSave(Pedido entity) {
+        for (ItemPedido item:entity.getItens()){
+            item.setPedido(entity);
+            Produto p=produtoRepository.findOne(item.getProduto().getId());
+            p.setQuantidade(item.getQuantidade()+p.getQuantidade());
+        }
+    }
+    
+    
 }

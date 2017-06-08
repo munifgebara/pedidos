@@ -1,4 +1,5 @@
 package br.com.munif.pedidos.domain.model;
+
 import io.gumga.domain.GumgaModel; //TODO RETIRAR OS IMPORTS DESNECESS?RIOS
 import io.gumga.domain.GumgaMultitenancy;
 import java.io.Serializable;
@@ -31,19 +32,26 @@ public class Pedido extends GumgaModel<Long> {
     private String cliente;
 
     @JsonIgnoreProperties({"pedido"})
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ItemPedido> itens;
 
-    public Pedido() {}
+    public Pedido() {
+    }
 
-	public String getCliente() {
-		return this.cliente;
-	}
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
+    public String getCliente() {
+        return this.cliente;
+    }
 
-        public List<ItemPedido> getItens(){
-             return itens;
-        }
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
 }
