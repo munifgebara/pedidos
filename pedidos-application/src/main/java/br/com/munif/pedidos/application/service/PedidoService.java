@@ -47,6 +47,15 @@ public class PedidoService extends GumgaService<Pedido, Long> {
             p.setQuantidade(item.getQuantidade()+p.getQuantidade());
         }
     }
+
+    @Override
+    public void beforeUpdate(Pedido entity) {
+        for (ItemPedido item:entity.getItens()){
+            item.setPedido(entity);
+        }
+    }
+    
+    
     
     
 }
